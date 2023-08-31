@@ -17,4 +17,4 @@ jobs:
         gh issue edit "${{ github.event.issue.number }}" --add-label "$LABEL" && \
         gh issue comment "${{ github.event.issue.number }}" --body "Label added."
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_PAT }}
