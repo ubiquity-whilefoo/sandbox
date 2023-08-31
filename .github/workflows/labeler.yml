@@ -1,0 +1,17 @@
+name: Labeler
+on:
+  issue_comment:
+    types: [created]
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Apply label
+      run: |
+        echo "${{ github.event.comment.body }}" | grep -q "/label" && \
+        gh pr edit "${{ github.event.issue.number }}" --add-label "${{ github.event.comment.body }}" && \
+        gh issue comment "${{ github.event.issue.number }}" --body "Label added."
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
