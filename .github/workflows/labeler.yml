@@ -13,6 +13,7 @@ jobs:
     - name: Apply label
       run: |
         echo '${{ github.event.comment.body }}' | grep -q "/label" && \
+        echo '${{ github.event }}' 
         LABEL=$(echo '${{ github.event }}' | jq -r '.comment.body' | sed 's/\/label //') && \
         gh issue edit "${{ github.event.issue.number }}" --add-label "$LABEL" && \
         gh issue comment "${{ github.event.issue.number }}" --body "Label added."
