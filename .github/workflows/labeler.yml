@@ -11,7 +11,7 @@ jobs:
     - name: Apply label
       run: |
         echo "${{ github.event.comment.body }}" | grep -q "/label" && \
-        gh pr edit "${{ github.event.issue.number }}" --add-label "${{ github.event.comment.body }}" && \
-        gh issue comment "${{ github.event.issue.number }}" --body "Label added."
+        gh issue edit "${{ github.event.issue.number }}" --add-label "$(echo ${{ github.event.comment.body }} | cut -d' ' -f2-)" && \
+        gh pr comment "${{ github.event.issue.number }}" --body "Label added."
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
