@@ -8,10 +8,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Install jq
+      run: sudo apt-get install -y jq
     - name: Apply label
       run: |
-        echo "${{ github.event.comment.body }}" | grep -q "/label" && \
-        gh issue edit "${{ github.event.issue.number }}" --add-label "$(echo '${{ github.event.comment.body }}' | sed 's/\/label //')" && \
+        echo '${{ github.event.comment.body }}' | grep -q "/label" && \
+        LABEL=$(echo '${{ github.event }}' | jq -r '.comment.body' | sed 's/\/label //') && \
+        gh issue edit "${{ github.event.issue.number }}" --add-label "$LABEL" && \
         gh pr comment "${{ github.event.issue.number }}" --body "Label added."
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
