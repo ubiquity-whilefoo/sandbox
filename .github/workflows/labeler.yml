@@ -15,6 +15,6 @@ jobs:
         echo '${{ github.event.comment.body }}' | grep -q "/label" && \
         LABEL=$(echo '${{ github.event }}' | jq -r '.comment.body' | sed 's/\/label //') && \
         gh issue edit "${{ github.event.issue.number }}" --add-label "$LABEL" && \
-        gh pr comment "${{ github.event.issue.number }}" --body "Label added."
+        gh issue comment "${{ github.event.issue.number }}" --body "Label added."
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
